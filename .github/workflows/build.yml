@@ -90,20 +90,11 @@ jobs:
 
       - name: Upload to App Store Connect
         env:
-          APP_STORE_CONNECT_PRIVATE_KEY: ${{ secrets.APP_STORE_CONNECT_PRIVATE_KEY }}
-          APP_STORE_CONNECT_KEY_ID: ${{ secrets.APP_STORE_CONNECT_KEY_ID }}
-          APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_APP_PASSWORD: ${{ secrets.APPLE_APP_PASSWORD }}
         run: |
-          mkdir -p ~/.appstoreconnect/private_keys
-          printf '%s' "$APP_STORE_CONNECT_PRIVATE_KEY" | tr -d '\r' > ~/.appstoreconnect/private_keys/AuthKey_${APP_STORE_CONNECT_KEY_ID}.p8
-          echo "=== Key file first line ==="
-          head -1 ~/.appstoreconnect/private_keys/AuthKey_${APP_STORE_CONNECT_KEY_ID}.p8
-          echo "=== Key file last line ==="
-          tail -1 ~/.appstoreconnect/private_keys/AuthKey_${APP_STORE_CONNECT_KEY_ID}.p8
-          echo "=== Key file line count ==="
-          wc -l ~/.appstoreconnect/private_keys/AuthKey_${APP_STORE_CONNECT_KEY_ID}.p8
           xcrun altool --upload-app \
             --type ios \
             --file "$RUNNER_TEMP/export/Probuild.ipa" \
-            --apiKey "$APP_STORE_CONNECT_KEY_ID" \
-            --apiIssuer "$APP_STORE_CONNECT_ISSUER_ID"
+            --username "$APPLE_ID" \
+            --password "$APPLE_APP_PASSWORD"
