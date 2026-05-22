@@ -90,10 +90,10 @@ jobs:
 
       - name: Upload to App Store Connect
         run: |
-          echo "${{ secrets.APP_STORE_CONNECT_PRIVATE_KEY }}" > $RUNNER_TEMP/AuthKey_${{ secrets.APP_STORE_CONNECT_KEY_ID }}.p8
+          mkdir -p ~/.appstoreconnect/private_keys
+          echo "${{ secrets.APP_STORE_CONNECT_PRIVATE_KEY }}" > ~/.appstoreconnect/private_keys/AuthKey_${{ secrets.APP_STORE_CONNECT_KEY_ID }}.p8
           xcrun altool --upload-app \
             --type ios \
             --file "$RUNNER_TEMP/export/Probuild.ipa" \
             --apiKey "${{ secrets.APP_STORE_CONNECT_KEY_ID }}" \
-            --apiIssuer "${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}" \
-            --apiKeyPath "$RUNNER_TEMP/AuthKey_${{ secrets.APP_STORE_CONNECT_KEY_ID }}.p8"
+            --apiIssuer "${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}"
