@@ -96,6 +96,12 @@ jobs:
         run: |
           mkdir -p ~/.appstoreconnect/private_keys
           printf '%s' "$APP_STORE_CONNECT_PRIVATE_KEY" > ~/.appstoreconnect/private_keys/AuthKey_${APP_STORE_CONNECT_KEY_ID}.p8
+          echo "=== Key file first line ==="
+          head -1 ~/.appstoreconnect/private_keys/AuthKey_${APP_STORE_CONNECT_KEY_ID}.p8
+          echo "=== Key file last line ==="
+          tail -1 ~/.appstoreconnect/private_keys/AuthKey_${APP_STORE_CONNECT_KEY_ID}.p8
+          echo "=== Key file line count ==="
+          wc -l ~/.appstoreconnect/private_keys/AuthKey_${APP_STORE_CONNECT_KEY_ID}.p8
           xcrun altool --upload-app \
             --type ios \
             --file "$RUNNER_TEMP/export/Probuild.ipa" \
