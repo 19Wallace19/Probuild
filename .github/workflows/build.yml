@@ -22,6 +22,12 @@ jobs:
           sudo xcode-select -s "$LATEST_XCODE"
           xcodebuild -version
 
+      - name: Flatten app icon (remove alpha channel)
+        run: |
+          convert Probuild/Assets.xcassets/AppIcon.appiconset/AppIcon.png \
+            -background white -alpha remove -alpha off \
+            Probuild/Assets.xcassets/AppIcon.appiconset/AppIcon.png
+
       - name: Import certificate and provisioning profile
         env:
           BUILD_CERTIFICATE_BASE64: ${{ secrets.BUILD_CERTIFICATE_BASE64 }}
