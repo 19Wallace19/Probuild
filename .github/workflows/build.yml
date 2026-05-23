@@ -24,22 +24,9 @@ jobs:
 
       - name: Flatten app icon (remove alpha channel)
         run: |
-          python3 -c "
-import struct, zlib, sys
-
-def remove_alpha(src, dst):
-    with open(src, 'rb') as f:
-        data = f.read()
-    # Use sips to convert to jpeg then back to png (removes alpha)
-    import subprocess, os, tempfile
-    tmp = tempfile.mktemp(suffix='.jpg')
-    subprocess.run(['sips', '-s', 'format', 'jpeg', src, '--out', tmp], check=True)
-    subprocess.run(['sips', '-s', 'format', 'png', tmp, '--out', dst], check=True)
-    os.remove(tmp)
-
-remove_alpha('Probuild/Assets.xcassets/AppIcon.appiconset/AppIcon.png',
-             'Probuild/Assets.xcassets/AppIcon.appiconset/AppIcon.png')
-"
+          ICON=Probuild/Assets.xcassets/AppIcon.appiconset/AppIcon.png
+          sips -s format jpeg "$ICON" --out /tmp/icon_flat.jpg
+          sips -s format png /tmp/icon_flat.jpg --out "$ICON"
 
       - name: Import certificate and provisioning profile
         env:
