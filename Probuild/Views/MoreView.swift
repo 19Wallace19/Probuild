@@ -6,6 +6,16 @@ struct MoreView: View {
             List {
                 Section(header: Text("Advanced Calculators")) {
                     NavigationLink {
+                        MeasurementView()
+                    } label: {
+                        MoreRowLabel(
+                            icon: "ruler.fill",
+                            title: "Measurement Calculator",
+                            subtitle: "Add, subtract fractions — imperial & metric"
+                        )
+                    }
+
+                    NavigationLink {
                         HipValleyView()
                     } label: {
                         MoreRowLabel(
